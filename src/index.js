@@ -28,13 +28,13 @@ const getTopWord = () => {
 }
 
 const getWord = (word) => {
-  for(var i in word){
+  for(let i in word){
     return i
   }
 }
 
 const getCount = (word) => {
-  for(var i in word){
+  for(let i in word){
     return word[i]
   }
 }
@@ -64,7 +64,7 @@ const countWords = (event) => {
 
 const createWordle = (frequencies) =>  {
   let sorted = []
-  for (var word in frequencies) {
+  for (let word in frequencies) {
     sorted.push([word, frequencies[word]])
 }
   sorted.sort((a, b) =>  {
