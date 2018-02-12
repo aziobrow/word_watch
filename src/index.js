@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-const url = 'https://wordwatch-api.herokuapp.com'
+const url = 'https://wordwatch-api.herokuapp.com/'
 
 const handleResponse = (response) => {
   return response.json()
@@ -30,7 +30,6 @@ const getTopWord = () => {
 const getWord = (word) => {
   for(var i in word){
     return i
-    console.log(word[i])
   }
 }
 
@@ -40,6 +39,46 @@ const getCount = (word) => {
   }
 }
 
+const addToFrequency = (word) =>  {
+  return fetch(`${url}api/v1/words`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ word: { value: `${word}` } })
+  })
+}
+
+const countWords = (event) => {
+  let paragraph = $('textarea').val()
+  let words = paragraph.split(" ")
+  let frequency = {}
+    words.forEach((word) => {
+      frequency[word] = (frequency[word] || 0) + 1
+      addToFrequency(word)
+      .then(response => handleResponse(response))
+    })
+    createWordle(frequency)
+}
+
+const createWordle = (frequencies) =>  {
+  let sorted = []
+  for (var word in frequencies) {
+    sorted.push([word, frequencies[word]])
+}
+  sorted.sort((a, b) =>  {
+    return a[1] - b[1]
+  })
+  renderWordle(sorted)
+}
+
+const renderWordle = (sortedWords) => {
+  sortedWords.forEach((word) => {
+    $('.word-count').append(`<p style="font-size:${word[1]}em">${word[0]}</p>`)
+  })
+}
+
 $(document).ready(() => {
   getTopWord()
+  $('#count-paragraph').on('click', countWords)
 })
