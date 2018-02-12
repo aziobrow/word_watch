@@ -78,7 +78,14 @@ const renderWordle = (sortedWords) => {
   })
 }
 
+const onEnter = (event) =>  {
+  if (event.keyCode == 13)  {
+    countWords()
+  }
+}
+
 $(document).ready(() => {
   getTopWord()
   $('#count-paragraph').on('click', countWords)
+  $('.text-submission').on('keyup', onEnter)
 })
