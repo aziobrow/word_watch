@@ -54,6 +54,7 @@ const countWords = (event) => {
   let words = paragraph.split(" ")
   let frequency = {}
     words.forEach((word) => {
+      word = word.toLowerCase()
       frequency[word] = (frequency[word] || 0) + 1
       addToFrequency(word)
       .then(response => handleResponse(response))
